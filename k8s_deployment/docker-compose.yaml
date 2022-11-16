@@ -1,0 +1,96 @@
+version: "3.8"
+services:
+  ouput:
+    container_name: ouput_app
+    image: alexhzzz/output_app:latest
+    ports:
+      - "5000:5000"
+    links:
+      - mongo
+    restart: always
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    restart: always
+    environment:
+        - MONGO_INITDB_ROOT_USERNAME=root
+        - MONGO_INITDB_ROOT_PASSWORD=password
+        - MONGO_INITDB_DATABASE=bmi_mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./app_code/mongodb/db:/data/db
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=password
+      - ME_CONFIG_MONGODB_URL=mongodb://root:password@mongo:27017/?authSource=admin
+      - ME_CONFIG_BASICAUTH_USERNAME=admin
+      - ME_CONFIG_BASICAUTH_PASSWORD=admin
+    depends_on:
+      - mongo
+    restart: always
+    ports:
+      - "8081:8081"
+
+  mysqldb:
+    container_name: mysqldb
+    image: stevencchang/asgn1mysql:v1
+    command: mysqld --default-authentication-plugin=mysql_native_password
+    env_file: ./.env
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_DATABASE: $MYSQL_DATABASE
+      MYSQL_USER: $MYSQL_USER
+      MYSQL_USER_HOST: '%'
+      MYSQL_PASSWORD: $MYSQL_PASSWORD
+      MYSQL_USER_PASSWORD: $MYSQL_PASSWORD
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysqldb:/docker-entrypoint-initdb.d
+      - ./app_code/db:/var/lib/mysql
+
+  input:
+    container_name: input_app
+    depends_on:
+      - mysqldb
+    image: stevencchang/assignment1_input:v14
+    env_file: ./.env
+    restart: always
+    ports:
+      - "3001:3001"
+    environment:
+      MYSQL_HOST: mysqldb
+      MYSQL_USER: $MYSQL_USER
+      MYSQL_PASSWORD: $MYSQL_PASSWORD
+      MYSQL_DATABASE: $MYSQL_DATABASE
+      MYSQL_PORT: $MYSQLDB_DOCKER_PORT
+
+  auth:
+    container_name: auth_app
+    image: stevencchang/assignment1_login:v4
+    restart: always
+    ports:
+      - "3000:3000"
+
+  result-auth:
+    image: stevencchang/result_login:v1
+    restart: always
+    ports:
+      - "3003:3003"
+
+  analitics:
+    container_name: analysis_app
+    image: alexhzzz/analitic_app:v1
+    ports:
+      - "3005:3005"
+    links:
+      - mongo
+      - mysqldb
+    restart: always
