@@ -54,13 +54,13 @@ services:
       - "3306:3306"
     volumes:
       - ./mysqldb:/docker-entrypoint-initdb.d
-      - ./app_code/db:/var/lib/mysql
+      - ./mysql-data:/var/lib/mysql
 
   input:
     container_name: input_app
     depends_on:
       - mysqldb
-    image: stevencchang/assignment1_input:v14
+    image: stevencchang/input:latest
     env_file: ./.env
     restart: always
     ports:
@@ -74,7 +74,7 @@ services:
 
   auth:
     container_name: auth_app
-    image: stevencchang/assignment1_login:v4
+    image: stevencchang/login:latest
     restart: always
     ports:
       - "3000:3000"

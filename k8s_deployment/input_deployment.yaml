@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: input
+  labels:
+    app: input
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: input
+  template:
+    metadata:
+      labels:
+        app: input
+    spec:
+      containers:
+        - name: input-app
+          image: stevencchang/input:latest
+          env:
+            - name: MYSQL_DATABASE
+              value: "webdata"
+            - name: MYSQL_HOST
+              value: "mysqldb.default.svc.cluster.local"
+            - name: MYSQL_PASSWORD
+              value: "password"
+            - name: MYSQL_USER
+              value: "input"
+            - name: MYSQL_PORT
+              value: "3306"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3001
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: input-lb
+spec:
+  type: LoadBalancer
+  ports:
+    - name: "3001"
+      port: 3001
+      targetPort: 3001
+  selector:
+    app: input

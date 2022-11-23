@@ -1,0 +1,7 @@
+kubectl apply -f input_deployment.yaml
+kubectl apply -f mysql_deployment.yaml
+kubectl get all
+
+kubectl delete -f mysql_deployment.yaml input_deployment.yaml
+
+select * from webapp.input_data;
