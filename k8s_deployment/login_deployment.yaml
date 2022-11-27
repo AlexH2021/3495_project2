@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: login-app
-          image: stevencchang/login:latest
+          image: alexhzzz/input_login:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
