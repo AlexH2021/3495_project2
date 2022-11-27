@@ -16,16 +16,16 @@ spec:
     spec:
       containers:
         - name: input-app
-          image: stevencchang/input:latest
+          image: alexhzzz/input_app:latest
           env:
             - name: MYSQL_DATABASE
               value: "webdata"
             - name: MYSQL_HOST
-              value: "mysqldb.default.svc.cluster.local"
+              value: "54.186.3.238"
             - name: MYSQL_PASSWORD
               value: "password"
             - name: MYSQL_USER
-              value: "input"
+              value: "user"
             - name: MYSQL_PORT
               value: "3306"
           imagePullPolicy: Always

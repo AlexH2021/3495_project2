@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: result-auth
+  labels:
+    app: result-auth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: result-auth
+  template:
+    metadata:
+      labels:
+        app: result-auth
+    spec:
+      containers:
+        - image: stevencchang/result_login:v1
+          name: result-auth
+          ports:
+            - containerPort: 3003
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: result-auth-lb
+spec:
+  type: LoadBalancer
+  ports:
+    - name: "3003"
+      port: 3003
+      targetPort: 3003
+  selector:
+    app: result-auth
