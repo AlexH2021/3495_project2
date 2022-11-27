@@ -15,7 +15,7 @@ spec:
         app: result-auth
     spec:
       containers:
-        - image: stevencchang/result_login:v1
+        - image: alexhzzz/result_login:latest
           name: result-auth
           ports:
             - containerPort: 3003
