@@ -47,7 +47,6 @@ metadata:
   name: input-lb
 spec:
   type: LoadBalancer
-  loadBalancerIP: 35.236.18.249
   ports:
     - name: "3001"
       port: 3001

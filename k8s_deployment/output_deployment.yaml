@@ -36,7 +36,6 @@ metadata:
   name: ouput-lb
 spec:
   type: LoadBalancer
-  loadBalancerIP: 34.94.15.198
   ports:
     - name: "5000"
       port: 5000

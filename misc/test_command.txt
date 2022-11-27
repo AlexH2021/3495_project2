@@ -3,3 +3,5 @@ kubectl apply -f k8s_deployment
 kubectl get deployments input -w
 kubectl get pods -w
 kubectl get hpa hpa-input -w
+
+kubectl delete -f k8s_deployment
