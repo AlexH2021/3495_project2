@@ -17,6 +17,9 @@ spec:
       containers:
         - image: alexhzzz/result_login:latest
           name: result-auth
+          env:
+            - name: output_host
+              value: "34.94.15.198"
           ports:
             - containerPort: 3003
           resources:
