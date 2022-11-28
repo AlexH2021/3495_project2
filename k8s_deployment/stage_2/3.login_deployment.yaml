@@ -20,16 +20,16 @@ spec:
           imagePullPolicy: Always
           env:
             - name: input_host
-              value: 35.236.26.86
+              value: 34.102.113.153
           ports:
             - containerPort: 3000
           resources:
             requests:
               memory: "64Mi"
-              cpu: "50m"
+              cpu: "150m"
             limits:
               memory: "128Mi"
-              cpu: "100m"
+              cpu: "200m"
       restartPolicy: Always
 
 ---

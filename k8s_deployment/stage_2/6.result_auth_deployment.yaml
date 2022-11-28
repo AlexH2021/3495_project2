@@ -19,16 +19,16 @@ spec:
           name: result-auth
           env:
             - name: output_host
-              value: 34.94.15.198
+              value: 35.236.18.249
           ports:
             - containerPort: 3003
           resources:
             requests:
               memory: "64Mi"
-              cpu: "50m"
+              cpu: "150m"
             limits:
               memory: "128Mi"
-              cpu: "100m"
+              cpu: "200m"
       restartPolicy: Always
 
 ---

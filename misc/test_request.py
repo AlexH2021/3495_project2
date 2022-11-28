@@ -1,7 +1,7 @@
 import requests
 import random 
 
-url = 'http://35.236.26.86:3001/input_data?username=testing'
+url = 'http://34.102.113.153:3001/input_data?username=testing'
 
 
 height = random.randint(1, 100)
