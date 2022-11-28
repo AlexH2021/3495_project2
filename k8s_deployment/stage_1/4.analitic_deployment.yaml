@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: analitics
+  labels:
+    app: analitics
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: analitics
+  template:
+    metadata:
+      labels:
+        app: analitics
+    spec:
+      containers:
+        - image: alexhzzz/analitic_app:latest
+          name: analysis-app
+          ports:
+            - containerPort: 3005
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: analitics-lb
+  labels:
+    app: analitics
+spec:
+  ports:
+    - name: "3005"
+      port: 3005
+      targetPort: 3005
+  selector:
+    app: analitics

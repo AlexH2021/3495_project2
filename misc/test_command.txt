@@ -1,4 +1,6 @@
-kubectl apply -f k8s_deployment
+kubectl apply -f k8s_deployment/stage_1
+kubectl apply -f k8s_deployment/stage_2
+
 
 kubectl get deployments input -w
 kubectl get pods -w
