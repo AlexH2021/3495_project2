@@ -1,4 +1,11 @@
+gcloud container clusters get-credentials cluster-1 --zone us-west2-b --project assignment2-369906
+
 kubectl apply -f k8s_deployment/stage_1
+
+kubectl get svc output-lb --output jsonpath='{.status.loadBalancer.ingress[0].ip}'
+external_ip=""; while [ -z $external_ip ]; do external_ip=$(kubectl get svc input-lb --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}") ; [ -z "$external_ip" ] && sleep 10; done; export input_host=$external_ip
+          
+
 kubectl apply -f k8s_deployment/stage_2
 
 

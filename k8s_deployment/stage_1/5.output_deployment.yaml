@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ouput
+  name: output
   labels:
-    app: ouput
+    app: output
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ouput
+      app: output
   strategy: {}
   template:
     metadata:
       labels:
-        app: ouput
+        app: output
     spec:
       containers:
         - image: alexhzzz/output_app:latest
-          name: ouput-app
+          name: output-app
           ports:
             - containerPort: 5000
           resources:
@@ -33,7 +33,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: ouput-lb
+  name: output-lb
 spec:
   type: LoadBalancer
   ports:
@@ -41,4 +41,4 @@ spec:
       port: 5000
       targetPort: 5000
   selector:
-    app: ouput
+    app: output
