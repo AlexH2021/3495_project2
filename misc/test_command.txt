@@ -1,16 +1,22 @@
 gcloud container clusters get-credentials cluster-1 --zone us-west2-b --project assignment2-369906
 
-kubectl apply -f k8s_deployment/stage_1
+kubectl apply -f 3495_project2/k8s_deployment/stage_1
 
 kubectl get svc output-lb --output jsonpath='{.status.loadBalancer.ingress[0].ip}'
-external_ip=""; while [ -z $external_ip ]; do external_ip=$(kubectl get svc input-lb --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}") ; [ -z "$external_ip" ] && sleep 10; done; export input_host=$external_ip
-          
 
-kubectl apply -f k8s_deployment/stage_2
+external_ip=""; while [ -z $external_ip ]; do external_ip=$(kubectl get svc input-lb --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}") ; [ -z "$external_ip" ] && sleep 10; done; echo input_host=$external_ip
+          
+external_ip=""; while [ -z $external_ip ]; do external_ip=$(kubectl get svc output-lb --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}") ; [ -z "$external_ip" ] && sleep 10; done; echo output_host=$external_ip
+
+kubectl apply -f 3495_project2/k8s_deployment/stage_2
 
 
 kubectl get deployments input -w
 kubectl get pods -w
 kubectl get hpa hpa-input -w
 
-kubectl delete -f k8s_deployment/stage_1 & kubectl delete -f k8s_deployment/stage_2 &
+python 3495_project2/misc/test_request.py
+
+kubectl delete -f 3495_project2/k8s_deployment/stage_1 & kubectl delete -f 3495_project2/k8s_deployment/stage_2 &
+
+# 54.186.3.238:8081 mongo-express

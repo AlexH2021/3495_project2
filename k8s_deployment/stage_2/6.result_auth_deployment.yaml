@@ -19,7 +19,7 @@ spec:
           name: result-auth
           env:
             - name: output_host
-              value: 35.236.18.249
+              value: 35.236.34.75
           ports:
             - containerPort: 3003
           resources:
